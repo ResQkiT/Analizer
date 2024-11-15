@@ -1,0 +1,27 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+analizer_frontend/node_modules
+analizer_frontend/*.pnp
+analizer_frontend/*.pnp.js
+
+# testing
+analizer_frontend/coverage
+
+# production
+analizer_frontend/build
+
+# misc
+analizer_frontend/*.DS_Store
+analizer_frontend/*.env.local
+analizer_frontend/*.env.development.local
+analizer_frontend/*.env.test.local
+analizer_frontend/*.env.production.local
+
+analizer_frontend/*npm-debug.log*
+analizer_frontend/*yarn-debug.log*
+analizer_frontend/*yarn-error.log*
+
+
+analizer_backend/uploads/
+
