@@ -17,6 +17,8 @@ function Home() {
         }
 
         const formData = new FormData();
+
+        
         formData.append('file', selectedFile);
 
         try {
