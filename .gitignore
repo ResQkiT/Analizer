@@ -21,3 +21,7 @@ analizer_frontend/*.env.production.local
 analizer_frontend/*npm-debug.log*
 analizer_frontend/*yarn-debug.log*
 analizer_frontend/*yarn-error.log*
+
+
+analizer_backend/uploads/
+
