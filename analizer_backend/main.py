@@ -53,15 +53,14 @@ def upload_file():
 @app.route('/analyze', methods=['POST'])
 def analyze_columns():
     data = request.get_json()
-    file_path = data.get('file_path')
-    columns = data.get('columns', [])
+    file_path = data.get('path')
+    column = data.get('column')
 
     if not file_path:
         return jsonify({"error": "No file path provided"}), 400
-    if not columns:
-        return jsonify({"error": "No columns selected for analysis"}), 400
+    if not column:
+        return jsonify({"error": "No column selected for analysis"}), 400
 
-    # Load the file using pandas
     try:
         if file_path.endswith('.csv'):
             df = pd.read_csv(file_path)
@@ -70,12 +69,54 @@ def analyze_columns():
         else:
             return jsonify({"error": "Unsupported file format"}), 400
 
-        result = df[columns].count()
-        print(result)
-        # Send the analysis result
-        return jsonify({"analysis": result.to_dict()}), 200
+        if column not in df.columns:
+            return jsonify({"error": f"Column '{column}' not found in the file"}), 400
+
+        column_data = df[column]
+        value_counts = column_data.value_counts().to_dict()
+
+        return jsonify({"analysis": value_counts}), 200
     except Exception as e:
         return jsonify({"error": f"Error analyzing data: {str(e)}"}), 500
+
+@app.route('/ai', methods=['POST'])
+def ai():
+    data = request.get_json()
+    file_path = data.get('path')
+    column = data.get('column')
+
+    if not file_path:
+        return jsonify({"error": "No file path provided"}), 400
+    if not column:
+        return jsonify({"error": "No column selected for analysis"}), 400
+
+    try:
+        ##AI code here
+
+        return jsonify({"analysis": 1}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error analyzing data: {str(e)}"}), 500
+    
+
+@app.route('/columns', methods=['GET'])
+def get_columns():
+    file_path = request.args.get('path')
+
+    if not file_path:
+        return jsonify({"error": "No file path provided"}), 400
+
+    try:
+        if file_path.endswith('.csv'):
+            df = pd.read_csv(file_path)
+        elif file_path.endswith('.xls') or file_path.endswith('.xlsx'):
+            df = pd.read_excel(file_path)
+        else:
+            return jsonify({"error": "Unsupported file format"}), 400
+
+        columns = df.columns.tolist()
+        return jsonify({"columns": columns}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error reading file: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

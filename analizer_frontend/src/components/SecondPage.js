@@ -1,57 +1,94 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import {
+    Bar,
+    Line,
+    Pie,
+    Doughnut,
+    Radar,
+    PolarArea,
+} from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    LineElement,
+    PointElement,
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend,
+    RadialLinearScale,
+} from 'chart.js';
+
+// Регистрация компонентов для графиков
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    LineElement,
+    PointElement,
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend,
+    RadialLinearScale
+);
 
 const SecondPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const columns = location.state?.columns || [];  // Получаем данные из состояния
     const path = location.state?.path;
+    const [columns, setColumns] = useState([]);
+
+    const fetchColumns = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/columns?path=${encodeURIComponent(path)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const result = await response.json();
+                setColumns(result.columns);
+            } else {
+                alert(`Ошибка при получении колонок`);
+            }
+        } catch (error) {
+            console.error('Ошибка при получении колонок:', error);
+            alert('Произошла ошибка при получении колонок');
+        }
+    };
+    useEffect(() => {
+        fetchColumns();
+    }, [path]);
 
     useEffect(() => {
         console.log('Path received:', path);
     }, [path]);
 
-    const handleCheckboxChange = (event) => {
-        console.log(event.target );
-        console.log(event.target.checked);
-        const { name, checked } = event.target;
-        setSelectedColumns(prevState => ({
-            ...prevState,
-            [name]: checked,
-        }));
-    };
+    const [selectedColumn, setSelectedColumn] = useState('');
+    const [chartData, setChartData] = useState(null);
+    const [chartType, setChartType] = useState('Bar');
 
-    const [selectedColumns, setSelectedColumns] = useState(
-        columns.reduce((acc, column) => {
-            acc[column] = false; // Изначально все чекбоксы не выбраны
-            return acc;
-        }, {})
-    );
+    const handleRadioChange = async (event) => {
+        const column = event.target.value;
+        setSelectedColumn(column);
 
-    const handlReadCheckboxesAndStartAnalize = async () => {
-        const selected = Object.keys(selectedColumns).filter(col => selectedColumns[col]);
-    
-        if (selected.length === 0) {
-            alert('Пожалуйста, выберите хотя бы одну колонку.');
-            return;
-        }
-    
         try {
-            // Отправляем выбранные колонки на сервер
             const response = await fetch('http://localhost:5000/analyze', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body:   JSON.stringify({ columns: selected, file_path: path }),
+                body: JSON.stringify({ column: column,  path: path}),
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
-                // Перенаправляем на третью страницу с результатами
-                navigate('/third', { state: { analysisResult: result.analysis } });
+                setChartData(result.analysis);
             } else {
                 const result = await response.json();
                 alert(`Ошибка при анализе: ${result.error}`);
@@ -65,35 +102,111 @@ const SecondPage = () => {
     const handleReturnBack = async () => {
         navigate('/');
     };
+    
+    const handleNextPage = async () => {
+        navigate('/choose_fields', { state: { path: path } });
+    };
+
+    const renderChart = () => {
+        if (!chartData) {
+            return <p>Здесь будет отображаться график после анализа</p>;
+        }
+
+        const labels = Object.keys(chartData);
+        const dataValues = Object.values(chartData);
+
+        const data = {
+            labels,
+            datasets: [
+                {
+                    label: 'Результат анализа',
+                    data: dataValues,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        };
+
+        const options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Результат анализа',
+                },
+            },
+        };
+
+        switch (chartType) {
+            case 'Bar':
+                return <Bar data={data} options={options} />;
+            case 'Line':
+                return <Line data={data} options={options} />;
+            case 'Pie':
+                return <Pie data={data} options={options} />;
+            case 'Doughnut':
+                return <Doughnut data={data} options={options} />;
+            case 'Radar':
+                return <Radar data={data} options={options} />;
+            case 'PolarArea':
+                return <PolarArea data={data} options={options} />;
+            default:
+                return <Bar data={data} options={options} />;
+        }
+    };
 
     return (
         <div className="container">
             <header className="header">
                 <h1>Вторая страница</h1>
             </header>
-            <div className="info-box">
-                <p>Файл был успешно загружен и обработан! Выберите колонки для анализа:</p>
+            <div className="content">
+                <div className="radio-container">
+                    <h2>Выберите колонку для анализа:</h2>
+                    {columns.length > 0 ? (
+                        columns.map((col, index) => (
+                            <div key={index} className="radio-item">
+                                <input
+                                    type="radio"
+                                    id={col}
+                                    name="column"
+                                    value={col}
+                                    checked={selectedColumn === col}
+                                    onChange={handleRadioChange}
+                                />
+                                <label htmlFor={col}>{col}</label>
+                            </div>
+                        ))
+                    ) : (
+                        <p>Нет данных для отображения</p>
+                    )}
+                    <div className="chart-controls">
+                        <label htmlFor="chartType">Выберите тип графика: </label>
+                        <select
+                            id="chartType"
+                            value={chartType}
+                            onChange={(e) => setChartType(e.target.value)}
+                        >
+                            <option value="Bar">Bar</option>
+                            <option value="Line">Line</option>
+                            <option value="Pie">Pie</option>
+                            <option value="Doughnut">Doughnut</option>
+                            <option value="Radar">Radar</option>
+                            <option value="PolarArea">PolarArea</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="chart-container">
+                    
+                    {renderChart()}
+                </div>
             </div>
-            <div className="checkbox-container">
-                {columns.length > 0 ? (
-                    columns.map((col, index) => (
-                        <div key={index} className="checkbox-item">
-                            <input
-                                type="checkbox"
-                                id={col}
-                                name={col}
-                                checked={selectedColumns[col] || false}
-                                onChange={handleCheckboxChange}
-                            />
-                            <label htmlFor={col}>{col}</label>
-                        </div>
-                    ))
-                ) : (
-                    <p>Нет данных для отображения</p>
-                )}
-            </div>
-            <button className="button" onClick={handlReadCheckboxesAndStartAnalize}>Запустить анализ по выбранным колонкам</button>
             <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
+            <button className="button" onClick={handleNextPage}>Перейти к анализу методами машинного обучения</button>
             <footer className="footer">
                 <p>&copy; 2023 Анализатор данных</p>
             </footer>

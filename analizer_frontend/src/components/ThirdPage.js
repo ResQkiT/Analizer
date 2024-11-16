@@ -1,55 +1,64 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import React, { useState, useEffect } from 'react';
+import { redirect, useLocation, useNavigate } from 'react-router-dom';
 
 const ThirdPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const analysisResult = location.state?.analysisResult;
+    const path = location.state?.path;
+    
+    useEffect(() => {
+        console.log('Path received:', path);
+    }, [path]);
 
-    const handleReturnBack = () => {
-        navigate('/second');
+    const [columns, setColumns] = useState([]);
+
+    const fetchColumns = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/columns?path=${encodeURIComponent(path)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const result = await response.json();
+                setColumns(result.columns);
+            } else {
+                alert(`Ошибка при получении колонок`);
+            }
+        } catch (error) {
+            console.error('Ошибка при получении колонок:', error);
+            alert('Произошла ошибка при получении колонок');
+        }
     };
 
-    if (!analysisResult || typeof analysisResult !== 'object') {
-        return <p>Ошибка: данные для анализа недоступны.</p>;
-    }
+    useEffect(() => {
+        fetchColumns();
+    }, [path]);
 
-    const labels = Object.keys(analysisResult);
-    const dataValues = Object.values(analysisResult);
+    const [selectedColumns, setSelectedColumns] = useState({});
 
-    if (labels.length === 0 || dataValues.length === 0) {
-        return <p>Данные для графика отсутствуют</p>;
-    }
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Результат анализа',
-                data: dataValues,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-            },
-        ],
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setSelectedColumns(prevState => ({
+            ...prevState,
+            [name]: checked,
+        }));
     };
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Analysis Result',
-            },
-        },
+    const handleAnalyze = async () => {
+        const selected = Object.keys(selectedColumns).filter(col => selectedColumns[col]);
+
+        if (selected.length === 0) {
+            alert('Пожалуйста, выберите хотя бы одну колонку.');
+            return;
+        }
+        navigate('/ai', { state: { path: path, columns: selected } });
+    };
+
+    const handleReturnBack = async () => {
+        navigate('/statistic', { state: { path: path } });
     };
 
     return (
@@ -57,16 +66,34 @@ const ThirdPage = () => {
             <header className="header">
                 <h1>Третья страница</h1>
             </header>
-            <div className="info-box">
-                <h2>Результат анализа:</h2>
-                <Bar data={data} options={options} />
+            <div className="content">
+                <div className="checkbox-container">
+                    <h2>Выберите колонки для анализа:</h2>
+                    {columns.length > 0 ? (
+                        columns.map((col, index) => (
+                            <div key={index} className="checkbox-item">
+                                <input
+                                    type="checkbox"
+                                    id={col}
+                                    name={col}
+                                    checked={selectedColumns[col] || false}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <label htmlFor={col}>{col}</label>
+                            </div>
+                        ))
+                    ) : (
+                        <p>Нет данных для отображения</p>
+                    )}
+                </div>
             </div>
+            <button className="button" onClick={handleAnalyze}>Запустить анализ</button>
             <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
             <footer className="footer">
                 <p>&copy; 2023 Анализатор данных</p>
             </footer>
         </div>
     );
-};
+}
 
 export default ThirdPage;

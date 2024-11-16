@@ -26,9 +26,9 @@ const Home = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                const file_path = result.path;
+                const path = result.path;
                 console.log(result);
-                navigate('/second', { state: { columns: result.columns, path: file_path } });
+                navigate('/statistic', { state: { path: path } });
             } else {
                 const result = await response.json();
                 alert(`Требуется файл соответствующий требованиям: ${result.error}`);
@@ -45,7 +45,7 @@ const Home = () => {
                 <h1>Инструмент для сегментации людей методами машинного обучения</h1>
             </header>
             <div className="info-box">
-                <p>Загрузите файл для анализа данных. Поддерживаются форматы CSV и Excel.</p>
+                <p>Загрузите файл для начала статического анализа. Поддерживаются форматы CSV и Excel.</p>
             </div>
             <div className="upload-box">
                 <input 
