@@ -71,8 +71,9 @@ def analyze_columns():
             return jsonify({"error": "Unsupported file format"}), 400
 
         result = df[columns].count()
+        print(result)
         # Send the analysis result
-        return jsonify({"analysis": result.to_json()}), 200
+        return jsonify({"analysis": result.to_dict()}), 200
     except Exception as e:
         return jsonify({"error": f"Error analyzing data: {str(e)}"}), 500
 
