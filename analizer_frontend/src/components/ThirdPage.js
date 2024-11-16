@@ -5,23 +5,19 @@ const ThirdPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const selectedColumns = location.state?.selectedColumns || [];  // Получаем данные из состояния
+    const analysisResult = location.state?.analysisResult || "Нет результатов для отображения.";
 
-    const handleReturnBack = async () => {
-        navigate('/');
+    const handleReturnBack = () => {
+        navigate('/second');
     };
 
     return (
         <div className="container">
             <h1>Третья страница</h1>
-            <p>Выбранные колонки для анализа:</p>
-            <ul>
-                {selectedColumns.map((col, index) => (
-                    <li key={index}>{col}</li>
-                ))}
-            </ul>
-            <button className="button" onClick={handleReturnBack}>{'<-'} Назад</button>
+            <h2>Результат анализа:</h2>
+            <p>{analysisResult}</p>
+            <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
         </div>
     );
-}
+};
 export default ThirdPage;

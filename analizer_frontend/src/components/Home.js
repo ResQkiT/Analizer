@@ -26,10 +26,12 @@ const Home = () => {
 
             if (response.ok) {
                 const result = await response.json();
+                const file_path = result.path;
                 //alert(result.message);
-
+                console.log(result);
                 // Перенаправляем на вторую страницу с передачей данных о колонках
-                navigate('/second', { state: { columns: result.columns } });
+                navigate('/second', { state: { columns: result.columns, path:  file_path } });
+
             } else {
                 const result = await response.json();
                 alert(`Требуется файл соответствующий требованиям: ${result.error}`);
