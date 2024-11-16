@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ThirdPage = () => {
@@ -13,10 +13,17 @@ const ThirdPage = () => {
 
     return (
         <div className="container">
-            <h1>Третья страница</h1>
-            <h2>Результат анализа:</h2>
-            <p>{analysisResult}</p>
+            <header className="header">
+                <h1>Третья страница</h1>
+            </header>
+            <div className="info-box">
+                <h2>Результат анализа:</h2>
+                <p>{analysisResult}</p>
+            </div>
             <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
+            <footer className="footer">
+                <p>&copy; 2023 Анализатор данных</p>
+            </footer>
         </div>
     );
 };

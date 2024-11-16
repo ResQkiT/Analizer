@@ -68,11 +68,13 @@ const SecondPage = () => {
 
     return (
         <div className="container">
-            <h1>Вторая страница</h1>
-            <p>Файл был успешно загружен и обработан!</p>
-
-            <h2>Выберите колонки для анализа:</h2>
-            <div>
+            <header className="header">
+                <h1>Вторая страница</h1>
+            </header>
+            <div className="info-box">
+                <p>Файл был успешно загружен и обработан! Выберите колонки для анализа:</p>
+            </div>
+            <div className="checkbox-container">
                 {columns.length > 0 ? (
                     columns.map((col, index) => (
                         <div key={index} className="checkbox-item">
@@ -92,6 +94,9 @@ const SecondPage = () => {
             </div>
             <button className="button" onClick={handlReadCheckboxesAndStartAnalize}>Запустить анализ по выбранным колонкам</button>
             <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
+            <footer className="footer">
+                <p>&copy; 2023 Анализатор данных</p>
+            </footer>
         </div>
     );
 }

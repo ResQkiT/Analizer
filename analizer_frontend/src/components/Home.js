@@ -27,11 +27,8 @@ const Home = () => {
             if (response.ok) {
                 const result = await response.json();
                 const file_path = result.path;
-                //alert(result.message);
                 console.log(result);
-                // Перенаправляем на вторую страницу с передачей данных о колонках
-                navigate('/second', { state: { columns: result.columns, path:  file_path } });
-
+                navigate('/second', { state: { columns: result.columns, path: file_path } });
             } else {
                 const result = await response.json();
                 alert(`Требуется файл соответствующий требованиям: ${result.error}`);
@@ -44,7 +41,12 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1 className="header">Инструмент для сегментации людей методами машинного обучения</h1>
+            <header className="header">
+                <h1>Инструмент для сегментации людей методами машинного обучения</h1>
+            </header>
+            <div className="info-box">
+                <p>Загрузите файл для анализа данных. Поддерживаются форматы CSV и Excel.</p>
+            </div>
             <div className="upload-box">
                 <input 
                     type="file" 
@@ -53,6 +55,9 @@ const Home = () => {
                 />
             </div>
             <button className="button" onClick={handleAnalyze}>Приступить к анализу {'->'}</button>
+            <footer className="footer">
+                <p>&copy; 2023 Анализатор данных</p>
+            </footer>
         </div>
     );
 }

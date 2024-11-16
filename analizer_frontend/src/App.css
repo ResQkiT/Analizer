@@ -1,40 +1,62 @@
+.html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e0f7fa; /* Светло-синий фон */
+}
 /* Общие стили для контейнера */
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   margin-top: 30px;
+  background-color: #e0f7fa; /* Светло-синий фон */
+  min-height: 100vh;
 }
 
 /* Заголовок */
 .header {
   font-size: 24px;
-  color: green;
+  color: #01579b; /* Темно-синий цвет */
   margin-bottom: 20px;
+}
+
+/* Блок с информацией */
+.info-box {
+  width: 80%;
+  padding: 20px;
+  border: 2px solid #0288d1; /* Синий цвет */
+  margin-bottom: 20px;
+  background-color: #b3e5fc; /* Светло-синий фон */
+  border-radius: 5px;
 }
 
 /* Область для загрузки файла */
 .upload-box {
   width: 80%;
   height: 150px;
-  border: 2px dashed #ccc;
+  border: 2px dashed #0288d1; /* Синий цвет */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  background-color: #b3e5fc; /* Светло-синий фон */
+  border-radius: 5px;
 }
 
 .file-input {
   font-size: 16px;
   cursor: pointer;
+  color: #01579b; /* Темно-синий цвет */
 }
 
 /* Кнопка Анализировать */
 .button {
   font-size: 18px;
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #0288d1; /* Синий цвет */
   color: white;
   border: none;
   border-radius: 5px;
@@ -42,46 +64,41 @@
   margin-bottom: 20px;
 }
 
-.analyze-button:hover {
-  background-color: #0056b3;
-}
-
-/* Результаты анализа */
-.result-box {
-  width: 80%;
-  height: 100px;
-  border: 2px solid #ccc;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
+.button:hover {
+  background-color: #0277bd; /* Темно-синий цвет при наведении */
 }
 
 /* Контейнер для списка чекбоксов */
 .checkbox-container {
   display: grid;
-  grid-template-columns: 1fr; /* Одна колонка */
-  gap: 10px; /* Расстояние между элементами */
+  grid-template-columns: 1fr;
+  gap: 10px;
   padding: 20px;
-  max-width: 400px; /* Максимальная ширина для контейнера */
-  margin: 0 auto; /* Центрируем контейнер по горизонтали */
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #b3e5fc; /* Светло-синий фон */
+  border-radius: 5px;
 }
 
 /* Индивидуальные элементы чекбокса */
 .checkbox-item {
   display: flex;
-  align-items: center; /* Выравнивание по центру по вертикали */
-  font-size: 16px; /* Размер текста */
+  align-items: center;
+  font-size: 16px;
+  color: #01579b; /* Темно-синий цвет */
 }
 
-/* Мелкие отступы между чекбоксом и лейблом */
 .checkbox-item input {
-  margin-right: 10px; /* Отступ справа от чекбокса */
+  margin-right: 10px;
 }
 
-/* Заголовок блока с чекбоксами */
-h2 {
+/* Футер */
+.footer {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  background-color: #0288d1; /* Синий цвет */
   text-align: center;
-  margin-bottom: 20px;
+  border-top: 1px solid #0277bd; /* Темно-синий цвет */
+  color: white;
 }
