@@ -58,5 +58,6 @@ https://drive.google.com/drive/folders/1iAEv-dDhbJUiIz2zLObA2mNiagUzrvdE?usp=dri
 ## Авторы
 
 - Сафронов Илья (бэкенд/фронтенд)
-- Блувштейн Елизавета (ai)
-- Кулаков Дмитрий (ai)
+- Блувштейн Елизавета (ml)
+- Кулаков Дмитрий (ml)
+
