@@ -117,7 +117,8 @@ def get_columns():
 @app.route('/ai', methods=['POST'])
 def ai():
     data = request.get_json()
-    use_tonal = data.get('use_tonal', False)
+    use_tonal = data.get('use_tonal')
+    print("use_tonal:use_tonal: ", use_tonal)
     file_path = data.get('path')
     user_folder = os.path.dirname(file_path)  # Получаем папку пользователя из пути к файлу
     columns = data.get('columns')
@@ -139,8 +140,10 @@ def ai():
         cust = df[columns]
         
         if use_tonal:
+            #cust = df.iloc[:-1]
             cust=deep_learn_analizer(cust)
-        
+            #cust = cust.drop(cust.columns[-1], axis=1)
+
         clusterer = MixedDataClusterer(vector_size=200, min_cluster_size=min_cluster_size(cust.shape[0],"linear"))
 
         labels, descriptions = clusterer.fit_predict(cust)

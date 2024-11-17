@@ -7,6 +7,7 @@ const AiAnalize = () => {
     const location = useLocation();
     const path = location.state?.path; // Путь к файлу
     const selectedColumns = location.state?.columns; // Выбранные колонки
+    const use_tonal = location.state?.use_tonal;
 
     const [isLoading, setIsLoading] = useState(true); // Состояние загрузки
     const [responseMessage, setResponseMessage] = useState(null); // Ответ с сервера
@@ -16,7 +17,7 @@ const AiAnalize = () => {
             const payload = {
                 path: path || "/path/to/your/file.csv", // Путь к файлу
                 columns: selectedColumns, // Используем выбранные колонки
-                use_tonal: false, // Пример флага для анализа
+                use_tonal: use_tonal, // Пример флага для анализа
             };
 
             try {

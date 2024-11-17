@@ -26,7 +26,7 @@ def clean_text(sentence):
     return re.sub(r'[^\w\s,]', '', re.sub(r'\d+', '', sentence))
 
 def uniform_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
-    return "royalblue"
+    return "green"
 
 import os
 from collections import Counter
@@ -50,6 +50,9 @@ def word_cloud(df, user_folder):
     df_new['Word'] = df_new['word'].apply(lambda x: x.split(', '))
 
     for cluster, group in df_new.groupby('cluster'):
+        if cluster < 0:
+            continue
+
         used_words = set()
         word_counts = Counter()
         total_rows = len(group)
@@ -157,7 +160,7 @@ def deep_learn_analizer(df):
     numeric_scores = [label_to_numeric[label] for label, _ in sentiment_results]
 
 
-    df.insert(0, 'sentiment_label', numeric_scores)
+    df.insert(0, 'тональность отзыва', numeric_scores)
 
     sentiment_counts = pd.Series([label for label, _ in sentiment_results]).value_counts()
 

@@ -40,6 +40,7 @@ const SecondPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const path = location.state?.path;
+    const use_tonal = location.state?.use_tonal;
     const [columns, setColumns] = useState([]);
 
     const fetchColumns = async () => {
@@ -104,7 +105,7 @@ const SecondPage = () => {
     };
     
     const handleNextPage = async () => {
-        navigate('/choose_fields', { state: { path: path } });
+        navigate('/choose_fields', { state: { path: path, use_tonal : use_tonal } });
     };
 
     const renderChart = () => {

@@ -6,7 +6,7 @@ const ThirdPage = () => {
     const navigate = useNavigate();
 
     const path = location.state?.path;
-
+    const use_tonal = location.state?.use_tonal;
     useEffect(() => {
         console.log('Path received:', path);
     }, [path]);
@@ -66,11 +66,11 @@ const ThirdPage = () => {
             return;
         }
         console.log(selected)
-        navigate('/ai', { state: { path: path, columns: selected } });
+        navigate('/ai', { state: { path: path, columns: selected, use_tonal:use_tonal } });
     };
 
     const handleReturnBack = async () => {
-        navigate('/statistic', { state: { path: path } });
+        navigate('/statistic', { state: { path: path , use_tonal :use_tonal} });
     };
 
     return (
