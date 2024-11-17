@@ -49,6 +49,9 @@ const AiAnalize = () => {
     const handleReturnBack = () => {
         navigate('/choose_fields', { state: { path: path } });
     };
+    const showClustesImages = () => {
+        navigate('/show_clusters', { state: { path: path } });
+    }
 
     const formatResponse = (response) => {
         // Предположим, что response - это строка с анализом, и разделим её на строки
@@ -58,7 +61,7 @@ const AiAnalize = () => {
     return (
         <div className="container">
             <header className="header">
-                <h1> для сегментации людей методами машинного обучения</h1>
+                <h1>Инструмент для сегментации людей методами машинного обучения</h1>
             </header>
 
             <div className="response-box">
@@ -81,7 +84,9 @@ const AiAnalize = () => {
                     )
                 )}
             </div>
-
+            <button className='button' onClick={showClustesImages}>
+                Показать кластеры
+            </button>
             <button className="button" onClick={handleReturnBack}>
                 Вернуться назад
             </button>

@@ -169,3 +169,21 @@
   word-wrap: break-word;
   color: #333;
 }
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Увеличен минимальный размер колонок */
+  gap: 20px; /* Увеличен промежуток между изображениями */
+}
+
+.image-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px; /* Увеличен радиус скругления */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавлена легкая тень для визуальной привлекательности */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный эффект при наведении */
+}
+
+.image-grid img:hover {
+  transform: scale(1.05); /* Легкое увеличение изображения при наведении */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Усиленная тень при наведении */
+}

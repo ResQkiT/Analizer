@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
-
     const handleFileUpload = (event) => {
         setSelectedFile(event.target.files[0]);
     };
@@ -27,8 +26,9 @@ const Home = () => {
             if (response.ok) {
                 const result = await response.json();
                 const path = result.path;
+                const userFolder = result.user_folder;
                 console.log(result);
-                navigate('/statistic', { state: { path: path } });
+                navigate('/statistic', { state: { path: path, userFolder: userFolder } });
             } else {
                 const result = await response.json();
                 alert(`Требуется файл соответствующий требованиям: ${result.error}`);

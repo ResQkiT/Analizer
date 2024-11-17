@@ -6,12 +6,13 @@ const ThirdPage = () => {
     const navigate = useNavigate();
 
     const path = location.state?.path;
-    
+
     useEffect(() => {
         console.log('Path received:', path);
     }, [path]);
 
     const [columns, setColumns] = useState([]);
+    const [allSelected, setAllSelected] = useState(false); // Флаг для отслеживания состояния кнопки
 
     const fetchColumns = async () => {
         try {
@@ -47,6 +48,16 @@ const ThirdPage = () => {
         }));
     };
 
+    const handleSelectAll = () => {
+        const newState = !allSelected; // Переключаем состояние
+        const updatedColumns = columns.reduce((acc, col) => {
+            acc[col] = newState;
+            return acc;
+        }, {});
+        setSelectedColumns(updatedColumns);
+        setAllSelected(newState); // Обновляем состояние флага
+    };
+
     const handleAnalyze = async () => {
         const selected = Object.keys(selectedColumns).filter(col => selectedColumns[col]);
 
@@ -71,18 +82,23 @@ const ThirdPage = () => {
                 <div className="checkbox-container">
                     <h2>Выберите колонки для анализа:</h2>
                     {columns.length > 0 ? (
-                        columns.map((col, index) => (
-                            <div key={index} className="checkbox-item">
-                                <input
-                                    type="checkbox"
-                                    id={col}
-                                    name={col}
-                                    checked={selectedColumns[col] || false}
-                                    onChange={handleCheckboxChange}
-                                />
-                                <label htmlFor={col}>{col}</label>
-                            </div>
-                        ))
+                        <>
+                            <button className="button select-all-button" onClick={handleSelectAll}>
+                                {allSelected ? 'Снять все' : 'Выбрать все'}
+                            </button>
+                            {columns.map((col, index) => (
+                                <div key={index} className="checkbox-item">
+                                    <input
+                                        type="checkbox"
+                                        id={col}
+                                        name={col}
+                                        checked={selectedColumns[col] || false}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <label htmlFor={col}>{col}</label>
+                                </div>
+                            ))}
+                        </>
                     ) : (
                         <p>Нет данных для отображения</p>
                     )}

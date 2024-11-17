@@ -8,7 +8,7 @@ import numpy as np
 from wordcloud import WordCloud
 from collections import Counter
 from transformers import pipeline, BertTokenizer, BertForSequenceClassification
-
+import os
 
 def combine_column(df, new_column_name="Combined", new_column_name2="Combined2"):
     df_new = pd.DataFrame()
@@ -27,10 +27,21 @@ def clean_text(sentence):
 
 def uniform_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
     return "royalblue"
-def word_cloud(df):
+
+import os
+from collections import Counter
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+def word_cloud(df, user_folder):
     """
     Генерирует облака слов для каждого кластера с автоматическим определением параметров.
+    Создает директорию, если она не существует.
     """
+    # Создание директории, если она отсутствует
+    if not os.path.exists(user_folder):
+        os.makedirs(user_folder)
+
     df_new = combine_column(df)
     df_new["cluster"] = df["cluster"]
     df_new["word"] = df_new["Combined"].apply(clean_text)
@@ -53,11 +64,11 @@ def word_cloud(df):
             percentage_threshold = 0.9  # Для больших кластеров
         elif total_rows >= 70:
             percentage_threshold = 0.8  # Для средних кластеров
-        elif total_rows>=40:
+        elif total_rows >= 40:
             percentage_threshold = 0.5
-        elif total_rows>=10:
+        elif total_rows >= 10:
             percentage_threshold = 0.2
-        else :
+        else:
             percentage_threshold = 0
 
         # Фильтрация слов по частоте
@@ -95,8 +106,12 @@ def word_cloud(df):
         plt.title(f"Word Cloud for Cluster {cluster}")
 
         # Сохранение облака
-        plt.savefig(f'word_cloud_cluster_{cluster}.png', bbox_inches='tight')
+        file_path = os.path.join(user_folder, f'word_cloud_cluster_{cluster}.png')
+        plt.savefig(file_path, bbox_inches='tight')
         plt.close()
+
+        print(f"Word cloud for cluster {cluster} saved at {file_path}")
+
 
 
 

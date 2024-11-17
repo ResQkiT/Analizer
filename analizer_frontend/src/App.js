@@ -4,7 +4,7 @@ import Home from './components/Home';
 import SecondPage from './components/SecondPage';
 import ThirdPage from './components/ThirdPage';
 import AiAnalize from './components/AIAnalize';
-
+import ShowClusters from './components/ShowClusters';
 import './App.css';  // Импортируем стили
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
                 <Route path="/statistic" element={<SecondPage />} />
                 <Route path="/choose_fields" element={<ThirdPage/>} />
                 <Route path="/ai" element={<AiAnalize/>} />
+                <Route path='/show_clusters' element={<ShowClusters />} />
             </Routes>
         </Router>
     );

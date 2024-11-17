@@ -220,8 +220,8 @@ const SecondPage = () => {
                     {renderChart()}
                 </div>
             </div>
-            <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
             <button className="button" onClick={handleNextPage}>Перейти к анализу методами машинного обучения</button>
+            <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
             <footer className="footer">
                 <p>&copy; 2023 Анализатор данных</p>
             </footer>
