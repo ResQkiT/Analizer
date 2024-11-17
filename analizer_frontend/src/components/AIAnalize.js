@@ -1,76 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import loadingGif from '../assets/loading.gif';
 
 const AiAnalize = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const path = location.state?.path;
-    const [isLoading, setIsLoading] = useState(false); // Состояние загрузки
+    const path = location.state?.path; // Путь к файлу
+    const selectedColumns = location.state?.columns; // Выбранные колонки
+
+    const [isLoading, setIsLoading] = useState(true); // Состояние загрузки
     const [responseMessage, setResponseMessage] = useState(null); // Ответ с сервера
-    const [waitTime, setWaitTime] = useState(1); // Время ожидания
 
-    const handleRequest = async () => {
-        setIsLoading(true); // Устанавливаем состояние загрузки
-        setResponseMessage(null); // Очищаем предыдущий ответ
+    useEffect(() => {
+        const sendRequest = async () => {
+            const payload = {
+                path: path || "/path/to/your/file.csv", // Путь к файлу
+                columns: selectedColumns, // Используем выбранные колонки
+                use_tonal: false, // Пример флага для анализа
+            };
 
-        try {
-            const response = await fetch(`http://localhost:5000/await?time=${waitTime}`);
-            if (response.ok) {
-                const result = await response.json();
-                setResponseMessage(result.message); // Устанавливаем сообщение с сервера
-            } else {
-                setResponseMessage("Ошибка на сервере!");
+            try {
+                const response = await fetch("http://localhost:5000/ai", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setResponseMessage(result.analysis); // Устанавливаем результат анализа
+                } else {
+                    const error = await response.json();
+                    setResponseMessage(error.error || "Ошибка на сервере!");
+                }
+            } catch (error) {
+                console.error("Ошибка запроса:", error);
+                setResponseMessage("Произошла ошибка при запросе.");
+            } finally {
+                setIsLoading(false); // Отключаем состояние загрузки
             }
-        } catch (error) {
-            console.error('Ошибка запроса:', error);
-            setResponseMessage("Произошла ошибка при запросе.");
-        } finally {
-            setIsLoading(false); // Отключаем состояние загрузки
-        }
-    };
+        };
+
+        sendRequest(); // Отправляем запрос при загрузке страницы
+    }, [path, selectedColumns]);
 
     const handleReturnBack = () => {
         navigate('/choose_fields', { state: { path: path } });
     };
 
+    const formatResponse = (response) => {
+        // Предположим, что response - это строка с анализом, и разделим её на строки
+        return response.split('\n').map((line, index) => <p key={index}>{line}</p>);
+    };
+
     return (
         <div className="container">
             <header className="header">
-                <h1>Инструмент для сегментации людей методами машинного обучения</h1>
+                <h1> для сегментации людей методами машинного обучения</h1>
             </header>
-            <div className="info-box">
-                <p>Укажите время ожидания (в секундах) для запроса:</p>
-                <input
-                    type="number"
-                    min="1"
-                    value={waitTime}
-                    onChange={(e) => setWaitTime(e.target.value)}
-                    className="input"
-                />
-                <button className="button" onClick={handleRequest}>
-                    Отправить запрос
-                </button>
-            </div>
 
             <div className="response-box">
                 {isLoading ? (
                     <div className="loading-container">
-                        <img style={{ width: '100px' }}
+                        <img
+                            style={{ width: '100px' }}
                             src={loadingGif}
-                            alt="Загрузка..." 
-                            className="loading-gif" 
+                            alt="Загрузка..."
+                            className="loading-gif"
                         />
                         <p>Пожалуйста, подождите, запрос выполняется...</p>
                     </div>
                 ) : (
-                    responseMessage && <p>{responseMessage}</p>
+                    responseMessage && (
+                        <div className=".json-container">
+                            <h2>Результат анализа:</h2>
+                            {formatResponse(responseMessage)}
+                        </div>
+                    )
                 )}
             </div>
 
             <button className="button" onClick={handleReturnBack}>
                 Вернуться назад
             </button>
+
             <footer className="footer">
                 <p>&copy; 2023 Анализатор данных</p>
             </footer>

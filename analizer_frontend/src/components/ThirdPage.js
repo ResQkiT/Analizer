@@ -54,6 +54,7 @@ const ThirdPage = () => {
             alert('Пожалуйста, выберите хотя бы одну колонку.');
             return;
         }
+        console.log(selected)
         navigate('/ai', { state: { path: path, columns: selected } });
     };
 

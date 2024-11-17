@@ -152,3 +152,20 @@
   border-top: 1px solid #0277bd; /* Темно-синий цвет */
   color: white;
 }
+.json-container {
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  overflow: auto;
+  max-height: 400px;
+}
+
+.json-pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #333;
+}

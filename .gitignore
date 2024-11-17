@@ -25,3 +25,6 @@ analizer_frontend/*yarn-error.log*
 
 analizer_backend/uploads/
 
+myenv
+
+analizer_backend/__pycache__/
