@@ -107,7 +107,7 @@ const ThirdPage = () => {
             <button className="button" onClick={handleAnalyze}>Запустить анализ</button>
             <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
             <footer className="footer">
-                <p>&copy; 2023 Анализатор данных</p>
+                <p>&copy; 2024 Анализатор данных</p>
             </footer>
         </div>
     );

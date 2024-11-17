@@ -1,9 +1,11 @@
-.html, body {
+/* Основные стили для HTML и тела */
+html, body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #e0f7fa;
+  background-color: #e8f5e9; /* Светло-зеленый фон */
 }
+
 /* Общие стили для контейнера */
 .container {
   display: flex;
@@ -11,17 +13,18 @@
   align-items: center;
   text-align: center;
   margin-top: 30px;
-  background-color: #e0f7fa; /* Светло-синий фон */
+  background-color: #e8f5e9; /* Светло-зеленый фон */
   min-height: 100vh;
 }
 
 /* Заголовок */
 .header {
   font-size: 24px;
-  color: #01579b; /* Темно-синий цвет */
+  color: #1b5e20; /* Темно-зеленый цвет */
   margin-bottom: 20px;
 }
 
+/* Контент */
 .content {
   display: flex;
   width: 80%;
@@ -33,18 +36,18 @@
 .info-box {
   width: 80%;
   padding: 20px;
-  border: 2px solid #0288d1; /* Синий цвет */
+  border: 2px solid #2e7d32; /* Средне-зеленый цвет */
   margin-bottom: 20px;
-  background-color: #b3e5fc; /* Светло-синий фон */
+  background-color: #c8e6c9; /* Светло-зеленый фон */
   border-radius: 5px;
 }
 
 /* Область для загрузки файла */
 .upload-box {
   width: 80%;
-  height: 200px; /* Увеличенная высота */
+  height: 200px;
   padding: 20px;
-  border: 2px dashed #0288d1; /* Синий цвет */
+  border: 2px dashed #2e7d32; /* Средне-зеленый цвет */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,14 +60,14 @@
 .file-input {
   font-size: 18px; /* Увеличенный размер шрифта */
   cursor: pointer;
-  color: #01579b; /* Темно-синий цвет */
+  color: #1b5e20; /* Темно-зеленый цвет */
 }
 
 /* Кнопка Анализировать */
 .button {
   font-size: 18px;
   padding: 10px 20px;
-  background-color: #0288d1; /* Синий цвет */
+  background-color: #388e3c; /* Средне-зеленый цвет */
   color: white;
   border: none;
   border-radius: 5px;
@@ -73,16 +76,17 @@
 }
 
 .button:hover {
-  background-color: #0277bd; /* Темно-синий цвет при наведении */
+  background-color: #2e7d32; /* Темно-зеленый цвет при наведении */
 }
 
+/* Контейнер для чекбокса */
 .checkbox-container {
   display: flex;
-  flex-direction: column; /* Расположение элементов друг под другом */
+  flex-direction: column;
   align-items: flex-start; /* Выровнять элементы по левому краю */
   padding: 20px;
-  border: 2px solid #0288d1; /* Синий цвет */
-  background-color: #b3e5fc; /* Светло-синий фон */
+  border: 2px solid #2e7d32; /* Средне-зеленый цвет */
+  background-color: #c8e6c9; /* Светло-зеленый фон */
   border-radius: 5px;
 }
 
@@ -90,7 +94,7 @@
   display: flex;
   align-items: center;
   font-size: 16px;
-  color: #01579b; /* Темно-синий цвет */
+  color: #1b5e20; /* Темно-зеленый цвет */
   margin-bottom: 10px;
 }
 
@@ -98,43 +102,45 @@
   margin-right: 10px;
 }
 
-
+/* Область для диаграмм */
 .chart-container {
-  flex: 1; /* Занимает оставшееся пространство */
+  flex: 1;
   padding: 20px;
   max-height: 700px;
-  border: 2px solid #0288d1; /* Синий цвет */
+  border: 2px solid #2e7d32; /* Средне-зеленый цвет */
   background-color: #ffffff; /* Белый фон */
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #01579b; /* Темно-синий цвет */
+  color: #1b5e20; /* Темно-зеленый цвет */
 }
+
+/* Область для ответа */
 .response-box {
   width: 80%;
   padding: 20px;
-  border: 2px solid #0288d1; /* Синий цвет */
-  background-color: #b3e5fc; /* Светло-синий фон */
+  border: 2px solid #2e7d32; /* Средне-зеленый цвет */
+  background-color: #c8e6c9; /* Светло-зеленый фон */
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
+/* Радиоконтейнер */
 .radio-container {
-  flex: 0 0 20%; /* Занимает 20% ширины контейнера */
+  flex: 0 0 20%;
   padding: 20px;
-  border: 2px solid #0288d1; /* Синий цвет */
-  background-color: #b3e5fc; /* Светло-синий фон */
+  border: 2px solid #2e7d32; /* Средне-зеленый цвет */
+  background-color: #c8e6c9; /* Светло-зеленый фон */
   border-radius: 5px;
   margin-right: 20px;
 }
-
 
 .radio-item {
   display: flex;
   align-items: center;
   font-size: 16px;
-  color: #01579b; /* Темно-синий цвет */
+  color: #1b5e20; /* Темно-зеленый цвет */
   margin-bottom: 10px;
 }
 
@@ -147,11 +153,13 @@
   margin-top: 20px;
   padding: 10px;
   width: 100%;
-  background-color: #0288d1; /* Синий цвет */
+  background-color: #388e3c; /* Средне-зеленый цвет */
   text-align: center;
-  border-top: 1px solid #0277bd; /* Темно-синий цвет */
+  border-top: 1px solid #2e7d32; /* Темно-зеленый цвет */
   color: white;
 }
+
+/* JSON-контейнер */
 .json-container {
   margin: 20px;
   padding: 15px;
@@ -169,21 +177,23 @@
   word-wrap: break-word;
   color: #333;
 }
+
+/* Сетка изображений */
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Увеличен минимальный размер колонок */
-  gap: 20px; /* Увеличен промежуток между изображениями */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .image-grid img {
   width: 100%;
   height: auto;
-  border-radius: 12px; /* Увеличен радиус скругления */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Добавлена легкая тень для визуальной привлекательности */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный эффект при наведении */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .image-grid img:hover {
-  transform: scale(1.05); /* Легкое увеличение изображения при наведении */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Усиленная тень при наведении */
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }

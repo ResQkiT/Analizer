@@ -93,7 +93,7 @@ const AiAnalize = () => {
             </button>
 
             <footer className="footer">
-                <p>&copy; 2023 Анализатор данных</p>
+                <p>&copy; 2024 Анализатор данных</p>
             </footer>
         </div>
     );
