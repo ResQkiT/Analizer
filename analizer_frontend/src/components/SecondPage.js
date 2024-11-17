@@ -111,23 +111,38 @@ const SecondPage = () => {
         if (!chartData) {
             return <p>Здесь будет отображаться график после анализа</p>;
         }
-
+    
         const labels = Object.keys(chartData);
         const dataValues = Object.values(chartData);
-
+    
+        // Генерация цветов
+        const generateColors = (numColors) => {
+            const colors = [];
+            for (let i = 0; i < numColors; i++) {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                colors.push(`rgba(${r}, ${g}, ${b}, 0.6)`); // Прозрачность 0.6
+            }
+            return colors;
+        };
+    
+        const backgroundColors = generateColors(dataValues.length);
+        const borderColors = backgroundColors.map((color) => color.replace('0.6', '1')); // Устанавливаем прозрачность 1 для границ
+    
         const data = {
             labels,
             datasets: [
                 {
                     label: 'Результат анализа',
                     data: dataValues,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
                     borderWidth: 1,
                 },
             ],
         };
-
+    
         const options = {
             responsive: true,
             plugins: {
@@ -140,7 +155,7 @@ const SecondPage = () => {
                 },
             },
         };
-
+    
         switch (chartType) {
             case 'Bar':
                 return <Bar data={data} options={options} />;
@@ -162,7 +177,7 @@ const SecondPage = () => {
     return (
         <div className="container">
             <header className="header">
-                <h1>Вторая страница</h1>
+                <h1>Статистическая информация по файлу</h1>
             </header>
             <div className="content">
                 <div className="radio-container">

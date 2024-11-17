@@ -1,20 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { redirect, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import loadingGif from '../assets/loading.gif';
 
 const AiAnalize = () => {
-    const location = useLocation();
     const navigate = useNavigate();
-
+    const location = useLocation();
     const path = location.state?.path;
-    const columns = location.state?.columns;
+    const [isLoading, setIsLoading] = useState(false); // Состояние загрузки
+    const [responseMessage, setResponseMessage] = useState(null); // Ответ с сервера
+    const [waitTime, setWaitTime] = useState(1); // Время ожидания
 
-    useEffect(() => {
-        console.log('Path received:', path);
-        console.log('Columns received:', columns);
-    }, [path, columns]);
+    const handleRequest = async () => {
+        setIsLoading(true); // Устанавливаем состояние загрузки
+        setResponseMessage(null); // Очищаем предыдущий ответ
 
-    const handleReturnBack = async () => {
-        navigate('/statistic', { state: { path: path } });
+        try {
+            const response = await fetch(`http://localhost:5000/await?time=${waitTime}`);
+            if (response.ok) {
+                const result = await response.json();
+                setResponseMessage(result.message); // Устанавливаем сообщение с сервера
+            } else {
+                setResponseMessage("Ошибка на сервере!");
+            }
+        } catch (error) {
+            console.error('Ошибка запроса:', error);
+            setResponseMessage("Произошла ошибка при запросе.");
+        } finally {
+            setIsLoading(false); // Отключаем состояние загрузки
+        }
+    };
+
+    const handleReturnBack = () => {
+        navigate('/choose_fields', { state: { path: path } });
     };
 
     return (
@@ -23,22 +40,42 @@ const AiAnalize = () => {
                 <h1>Инструмент для сегментации людей методами машинного обучения</h1>
             </header>
             <div className="info-box">
-                <p>Выберите метод машинного обучения для анализа данных</p>
+                <p>Укажите время ожидания (в секундах) для запроса:</p>
+                <input
+                    type="number"
+                    min="1"
+                    value={waitTime}
+                    onChange={(e) => setWaitTime(e.target.value)}
+                    className="input"
+                />
+                <button className="button" onClick={handleRequest}>
+                    Отправить запрос
+                </button>
             </div>
-            <div className="upload-box">
-                <select className="select">
-                    <option value="kmeans">KMeans</option>
-                    <option value="dbscan">DBSCAN</option>
-                    <option value="birch">Birch</option>
-                </select>
+
+            <div className="response-box">
+                {isLoading ? (
+                    <div className="loading-container">
+                        <img style={{ width: '100px' }}
+                            src={loadingGif}
+                            alt="Загрузка..." 
+                            className="loading-gif" 
+                        />
+                        <p>Пожалуйста, подождите, запрос выполняется...</p>
+                    </div>
+                ) : (
+                    responseMessage && <p>{responseMessage}</p>
+                )}
             </div>
-            <button className="button" onClick={handleReturnBack}>Вернуться назад</button>
+
+            <button className="button" onClick={handleReturnBack}>
+                Вернуться назад
+            </button>
             <footer className="footer">
                 <p>&copy; 2023 Анализатор данных</p>
             </footer>
         </div>
     );
-
 };
 
 export default AiAnalize;

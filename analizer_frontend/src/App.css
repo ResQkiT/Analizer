@@ -43,6 +43,7 @@
 .upload-box {
   width: 80%;
   height: 200px; /* Увеличенная высота */
+  padding: 20px;
   border: 2px dashed #0288d1; /* Синий цвет */
   display: flex;
   align-items: center;
@@ -109,6 +110,14 @@
   align-items: center;
   justify-content: center;
   color: #01579b; /* Темно-синий цвет */
+}
+.response-box {
+  width: 80%;
+  padding: 20px;
+  border: 2px solid #0288d1; /* Синий цвет */
+  background-color: #b3e5fc; /* Светло-синий фон */
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .radio-container {

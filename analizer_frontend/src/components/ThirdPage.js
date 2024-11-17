@@ -64,7 +64,7 @@ const ThirdPage = () => {
     return (
         <div className="container">
             <header className="header">
-                <h1>Третья страница</h1>
+                <h1>Начинаем кластеризовать данные</h1>
             </header>
             <div className="content">
                 <div className="checkbox-container">

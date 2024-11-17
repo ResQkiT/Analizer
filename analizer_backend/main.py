@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, session
 
 from flask_cors import CORS  # Импортируем CORS
+from werkzeug.utils import secure_filename
 import os
 import pandas as pd
-from werkzeug.utils import secure_filename
-
+import time
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24)
@@ -117,6 +117,15 @@ def get_columns():
         return jsonify({"columns": columns}), 200
     except Exception as e:
         return jsonify({"error": f"Error reading file: {str(e)}"}), 500
+    
+@app.route("/await", methods=['GET'])
+def wait():
+    try:
+        _time = int(request.args.get('time', 0))
+        time.sleep(_time)
+        return jsonify({"message": f"I was waiting for {_time} seconds"}), 200
+    except ValueError:
+        return jsonify({"error": "Invalid time value"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
